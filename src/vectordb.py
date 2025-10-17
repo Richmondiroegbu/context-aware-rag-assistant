@@ -250,7 +250,7 @@ class VectorDB:
     def get_conversation_summary(self) -> Optional[str]:
         """Get the current conversation summary from memory, if enabled.
         returns:
-            Conversation summary string or None if memory not enabled.
+            Optional[str]: summary string or None if memory not enabled.
         """
         if self.memory:
             return None
