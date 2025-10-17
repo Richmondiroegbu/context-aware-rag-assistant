@@ -301,3 +301,61 @@ class RAGAssistant:
 
         return results
 
+
+def initialize_rag():
+    """Initializes the RAG assistant with documents and prompt."""
+    
+
+    system_prompt = PromptInstructions.System_prompt
+    goals = PromptInstructions.Goals
+    instructions = PromptInstructions.Instructions
+    constraints = PromptInstructions.Constraints
+    tone = PromptInstructions.Tones
+    reasoning_instructions = PromptInstructions.Cot_strategy
+
+    pb = (
+        PromptBuilder(system_prompt=system_prompt)
+        .add_goal(goals)
+        .add_instruction(instructions)
+        .add_constraint(constraints)
+        .add_tone(tone)
+        .set_reasoning_instructions(reasoning_instructions)
+    )
+
+
+    rag = RAGAssistant(prompt=pb.build())
+    documents = load_documents(DEFAULT_DATA_PATH)
+    if documents:
+        rag.add_documents(documents)
+    else:
+        logger.warning("No documents were loaded into the vector DB (check ./data).")
+
+    return rag
+    
+
+
+
+rag = initialize_rag()
+
+
+
+def chatbot_response(user_q):
+    """Chatbot response function."""
+
+    if not user_q or not user_q.strip():
+        return "Please enter a valid question."
+    # Run query
+   
+    out = rag.query(user_q, providers="all")
+
+    # Extract responses safely
+    for provider, resp in out["responses"].items():
+        if resp.get("error"):
+            return f"⚠️ Error from {provider}: {resp['error']}"
+        else:
+            answer = resp.get("answer")
+            if answer:
+                return f"**{provider.capitalize()} says:**\n\n{answer}"
+
+    return "Sorry, no valid answer was returned from any provider."
+

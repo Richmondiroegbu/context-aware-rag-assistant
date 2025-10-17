@@ -222,7 +222,7 @@ class VectorDB:
         results = self.collection.query(
             query_embeddings=query_embedding,
             n_results=n_results,
-            include=["documents", "metadatas", "distances"]
+            include=["documents", "metadatas", "distances"],
         )
 
 
@@ -238,7 +238,7 @@ class VectorDB:
                 logger.warning(f"Memory update Failed: {e}")
 
 
-            return{
+        return{
                 "documents": results.get("documents", [[]])[0],
                 "metadatas": results.get("metadatas", [[]])[0],
                 "distances": results.get("distances", [[]])[0],           
@@ -252,7 +252,7 @@ class VectorDB:
         returns:
             Optional[str]: summary string or None if memory not enabled.
         """
-        if self.memory:
+        if not self.memory:
             return None
         try:
             summary = self.memory.load_memory_variables({}).get("chat_history", "")
