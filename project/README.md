@@ -42,24 +42,22 @@ This project solves that by integrating **retrieval-based context injection**, e
 
 ## 🧩 Project Structure
 
-project/
-    |___src/
-    |   |__data/                      # Folder for user documents (PDF/TXT/MD)
-    |   |   |__chatbotdoc.pdf         # Dependencies list
-    |   │
-    |   ├── app.py                    # Core RAG logic and orchestration
-    |   ├── vectordb.py               # Embedding generation + ChromaDB store
-    |   ├── prompt_builder.py         # Builds structured prompts dynamically
-    |   ├── prompt_instructions.py    # System rules, tone, and safety constraints
-    |   ├── run.py                    # Streamlit UI for interactive chatting
-    |               
-    |   
-    |──.env                           # Environment variables (API keys, paths)
-    |__.gitignore
-    |__LICENSE
-    |__README.md
-    |__requirements.txt                
-
+context aware rag assistant/
+└── project/
+    ├── src/
+    │   ├── data/
+    │   │   └── chatbotdoc.pdf
+    │   ├── app.py
+    │   ├── vectordb.py
+    │   ├── prompt_builder.py
+    │   ├── prompt_instructions.py
+    │   └── run.py
+    │
+    ├── .env
+    ├── .gitignore
+    ├── LICENSE
+    ├── README.md
+    └── requirements.txt
 ---
 
 ## 🧱 System Architecture
